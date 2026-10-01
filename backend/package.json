@@ -1,0 +1,26 @@
+{
+  "name": "shopkart-api",
+  "version": "1.0.0",
+  "description": "ShopKart customer authentication API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "node --test tests/auth.test.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.19.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "supertest": "^7.3.1"
+  },
+  "allowScripts": {
+    "bcrypt@5.1.1": true
+  }
+}

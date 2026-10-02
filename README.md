@@ -1,15 +1,14 @@
 # ShopKart
 
-ShopKart is a customer store API and, in later phases, a React storefront. Customers register, sign in, and manage their own account. Passwords are stored only as bcrypt hashes. Sessions use a JWT kept in an HttpOnly cookie.
+ShopKart is a customer store. People create an account, sign in, and see their profile. Passwords are stored only as bcrypt hashes. The session JWT stays in an HttpOnly cookie.
 
 ## Stack
 
-- Node.js
-- Express
+- Node.js and Express
 - MongoDB and Mongoose
-- bcrypt
-- jsonwebtoken
-- cookie-parser
+- bcrypt, jsonwebtoken, and cookie-parser
+- React, React Router, and Axios
+- Tailwind CSS
 
 ## Requirements
 
@@ -34,6 +33,21 @@ npm run dev
 The API listens on `http://localhost:5000`.
 
 ```bash
+npm test
+```
+
+In another terminal, start the storefront:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173`. Create an account, then log in. The home page loads the signed-in customer from `GET /customers/me`.
+
+```bash
+cd frontend
 npm test
 ```
 
@@ -101,12 +115,6 @@ Content-Type: application/json
 ## Project layout
 
 ```text
-backend/
-├── controllers/
-├── models/
-├── routes/
-├── middlewares/
-├── utils/
-├── index.js
-└── .env
+backend/     Customer API
+frontend/    Register, login, and home pages
 ```

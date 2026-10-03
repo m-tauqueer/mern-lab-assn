@@ -4,7 +4,7 @@ import api from "../services/api";
 export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const onHome = location.pathname === "/home";
+  const inStore = location.pathname === "/home" || location.pathname.startsWith("/products");
 
   async function handleLogout() {
     try {
@@ -16,14 +16,22 @@ export default function Navbar() {
 
   return (
     <header className="store-nav">
-      <Link className="wordmark" to={onHome ? "/home" : "/login"}>
+      <Link className="wordmark" to={inStore ? "/home" : "/login"}>
         ShopKart
       </Link>
       <nav className="nav-actions">
-        {onHome ? (
-          <button className="nav-button" type="button" onClick={handleLogout}>
-            Logout
-          </button>
+        {inStore ? (
+          <>
+            <Link className="nav-link" to="/products">
+              Products
+            </Link>
+            <Link className="nav-link" to="/home">
+              Account
+            </Link>
+            <button className="nav-button" type="button" onClick={handleLogout}>
+              Logout
+            </button>
+          </>
         ) : (
           <>
             <Link className="nav-link" to="/login">

@@ -1,12 +1,13 @@
 {
   "name": "shopkart-api",
   "version": "1.0.0",
-  "description": "ShopKart customer authentication API",
+  "description": "ShopKart customer and product API",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "node --test tests/auth.test.js"
+    "seed": "node seed/products.js",
+    "test": "node --test --test-concurrency=1 tests/*.test.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

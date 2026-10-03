@@ -1,31 +1,8 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import api from "../services/api";
+import { Link } from "react-router-dom";
+import useCustomer from "../hooks/useCustomer";
 
 export default function Home() {
-  const navigate = useNavigate();
-  const [customer, setCustomer] = useState(null);
-
-  useEffect(() => {
-    let active = true;
-
-    api
-      .get("/customers/me")
-      .then((response) => {
-        if (active) {
-          setCustomer(response.data);
-        }
-      })
-      .catch(() => {
-        if (active) {
-          navigate("/login", { replace: true });
-        }
-      });
-
-    return () => {
-      active = false;
-    };
-  }, [navigate]);
+  const customer = useCustomer();
 
   if (!customer) {
     return (
@@ -45,6 +22,9 @@ export default function Home() {
         <dt>Phone</dt>
         <dd>{customer.phone}</dd>
       </dl>
+      <Link className="button home-shop" to="/products">
+        Browse products
+      </Link>
     </main>
   );
 }

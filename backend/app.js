@@ -1,6 +1,7 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const customerRoutes = require("./routes/customer.routes");
+const productRoutes = require("./routes/product.routes");
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/customers", customerRoutes);
+app.use("/products", productRoutes);
 
 app.use((error, req, res, next) => {
   console.error(error);

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import AddToCartButton from "./AddToCartButton";
 import { formatPrice, stockLabel } from "../utils/formatProduct";
 
 export default function ProductCard({ product }) {
@@ -10,8 +11,9 @@ export default function ProductCard({ product }) {
         <p className="product-category">{product.category}</p>
         <p className="price-tag">{formatPrice(product.price)}</p>
         <p className={product.stock === 0 ? "stock stock-empty" : "stock"}>{stockLabel(product.stock)}</p>
-        <Link className="button" to={`/products/${product._id}`}>
-          View Details
+        <AddToCartButton product={product} className="button" />
+        <Link className="text-link" to={`/products/${product._id}`}>
+          View details
         </Link>
       </div>
     </li>

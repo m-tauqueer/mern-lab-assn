@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Field from "../components/Field";
+import useCart from "../hooks/useCart";
 import api from "../services/api";
 import { validateLogin } from "../utils/validateCustomer";
 
 export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { refresh } = useCart();
   const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState("");
@@ -34,6 +36,7 @@ export default function Login() {
         email: form.email.trim(),
         password: form.password,
       });
+      await refresh();
       navigate("/home");
     } catch (error) {
       if (error.response?.status === 401) {

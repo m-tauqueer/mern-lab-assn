@@ -343,6 +343,137 @@ a.button {
   opacity: 0.55;
 }
 
+.text-link {
+  display: inline-block;
+  margin-top: 0.7rem;
+  font-weight: 700;
+}
+
+.text-button {
+  width: fit-content;
+  margin-top: 0.55rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-danger);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.text-button:disabled,
+.qty button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.cart-page {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+.cart-page h1,
+.order-summary h2,
+.cart-item h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.1;
+  margin: 0 0 0.4rem;
+}
+
+.cart-page h1 {
+  font-size: 2.35rem;
+}
+
+.cart-action {
+  width: auto;
+  min-width: 12rem;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.cart-layout {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.cart-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.cart-item,
+.order-summary {
+  background: var(--color-slip);
+  border: 1px solid var(--color-line);
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: 0.85rem;
+  padding: 0.8rem;
+}
+
+.cart-item img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: white;
+}
+
+.cart-item-body {
+  min-width: 0;
+}
+
+.line-total {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.45rem;
+}
+
+.qty button {
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  background: var(--color-tag);
+  color: var(--color-steel);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.qty span {
+  min-width: 1.4rem;
+  text-align: center;
+  font-weight: 700;
+}
+
+.order-summary {
+  padding: 1rem 1rem 1.15rem;
+  align-self: start;
+}
+
+.order-summary p {
+  margin: 0.7rem 0;
+}
+
+.order-summary .button {
+  margin-top: 0.8rem;
+}
+
 @media (min-width: 700px) {
   .catalog-filters {
     grid-template-columns: 1.5fr 0.9fr 0.9fr;
@@ -363,6 +494,20 @@ a.button {
     grid-template-columns: minmax(16rem, 28rem) minmax(0, 1fr);
     align-items: start;
     padding-top: 2.25rem;
+  }
+
+  .cart-layout {
+    grid-template-columns: minmax(0, 1fr) 18rem;
+    align-items: start;
+  }
+
+  .cart-item {
+    grid-template-columns: 7.5rem minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .line-total {
+    margin: 0;
   }
 }
 

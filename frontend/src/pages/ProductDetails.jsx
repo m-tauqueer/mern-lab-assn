@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import AddToCartButton from "../components/AddToCartButton";
 import useCustomer from "../hooks/useCustomer";
 import { fetchProduct } from "../services/products";
 import { formatPrice, stockLabel } from "../utils/formatProduct";
@@ -8,13 +9,6 @@ export default function ProductDetails() {
   const customer = useCustomer();
   const { id } = useParams();
   const [result, setResult] = useState({ id: "", product: null, status: "loading" });
-  const [cartNote, setCartNote] = useState("");
-  const [noteId, setNoteId] = useState(id);
-
-  if (noteId !== id) {
-    setNoteId(id);
-    setCartNote("");
-  }
 
   useEffect(() => {
     if (!customer) {
@@ -97,15 +91,7 @@ export default function ProductDetails() {
         <p className="price-tag">{formatPrice(product.price)}</p>
         <p className="detail-copy">{product.description}</p>
         <p className={product.stock === 0 ? "stock stock-empty" : "stock"}>{stockLabel(product.stock)}</p>
-        <button
-          className="button detail-cart"
-          type="button"
-          disabled={product.stock === 0}
-          onClick={() => setCartNote("Add to cart is not available yet.")}
-        >
-          Add to cart
-        </button>
-        {cartNote && <p className="form-note">{cartNote}</p>}
+        <AddToCartButton product={product} className="button detail-cart" />
       </div>
     </main>
   );

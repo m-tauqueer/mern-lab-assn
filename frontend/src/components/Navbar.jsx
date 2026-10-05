@@ -1,15 +1,22 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import useCart from "../hooks/useCart";
 import api from "../services/api";
 
 export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const inStore = location.pathname === "/home" || location.pathname.startsWith("/products");
+  const { itemCount, status, clearCart } = useCart();
+  const inStore =
+    location.pathname === "/home" ||
+    location.pathname === "/cart" ||
+    location.pathname === "/checkout" ||
+    location.pathname.startsWith("/products");
 
   async function handleLogout() {
     try {
       await api.post("/customers/logout");
     } finally {
+      clearCart();
       navigate("/login", { replace: true });
     }
   }
@@ -27,6 +34,9 @@ export default function Navbar() {
             </Link>
             <Link className="nav-link" to="/home">
               Account
+            </Link>
+            <Link className="nav-link" to="/cart">
+              {status === "ready" ? `Cart (${itemCount})` : "Cart"}
             </Link>
             <button className="nav-button" type="button" onClick={handleLogout}>
               Logout

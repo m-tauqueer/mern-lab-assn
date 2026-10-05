@@ -134,9 +134,22 @@ The list leaves out the description. A missing field, a price that is not above 
 GET /products?search=keyboard&category=Electronics&sort=price_asc
 ```
 
+## Cart API
+
+Every cart route needs the signed-in cookie. The cart stores a product reference and a quantity. It does not store the price. Adding the same product again increases that row. A quantity below 1, or above the product's current stock, returns `400`. An invalid id returns `400`. An unknown product, or a product that is not in the cart, returns `404`.
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| POST | `/cart/:productId` | Add one unit, or increment the existing row |
+| GET | `/cart` | Current cart, with each product filled in |
+| PATCH | `/cart/:productId` | Set the quantity |
+| DELETE | `/cart/:productId` | Remove that product |
+
+The storefront keeps one shared cart. The navbar count is the total number of units, and the subtotal is calculated from the latest price.
+
 ## Project layout
 
 ```text
-backend/     Customer and product API
-frontend/    Account pages and the product catalog
+backend/     Customer, product, and cart API
+frontend/    Account pages, catalog, and cart
 ```

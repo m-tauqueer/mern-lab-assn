@@ -3,6 +3,8 @@ const cookieParser = require("cookie-parser");
 const customerRoutes = require("./routes/customer.routes");
 const productRoutes = require("./routes/product.routes");
 const cartRoutes = require("./routes/cart.routes");
+const wishlistRoutes = require("./routes/wishlist.routes");
+const orderRoutes = require("./routes/order.routes");
 
 const app = express();
 
@@ -37,6 +39,8 @@ app.use((req, res, next) => {
 app.use("/customers", customerRoutes);
 app.use("/products", productRoutes);
 app.use("/cart", cartRoutes);
+app.use("/wishlist", wishlistRoutes);
+app.use("/orders", orderRoutes);
 
 app.use((error, req, res, next) => {
   console.error(error);

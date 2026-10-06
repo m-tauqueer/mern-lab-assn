@@ -147,9 +147,38 @@ Every cart route needs the signed-in cookie. The cart stores a product reference
 
 The storefront keeps one shared cart. The navbar count is the total number of units, and the subtotal is calculated from the latest price.
 
+## Wishlist API
+
+The wishlist stores product references for the signed-in customer. It does not copy the product. Adding the same product again returns `409`. `PATCH /wishlist/:productId/toggle` adds the product or removes it.
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| POST | `/wishlist/:productId` | Save a product |
+| GET | `/wishlist` | Saved products for the current customer |
+| PATCH | `/wishlist/:productId/toggle` | Save or remove that product |
+| DELETE | `/wishlist/:productId` | Remove a saved product |
+
+## Orders and payment
+
+Checkout sends only the shipping address. The server prices the order from the current products, checks stock, and creates a Razorpay test order. The cart stays until `POST /orders/verify-payment` accepts the payment signature. The Razorpay key secret stays in the backend environment.
+
+| Method | Endpoint | Purpose |
+| --- | --- | --- |
+| POST | `/orders/create-payment-order` | Start payment for the current cart |
+| POST | `/orders/verify-payment` | Confirm the Razorpay signature and place the order |
+| GET | `/orders` | The signed-in customer's orders |
+| GET | `/orders/:id` | One order owned by that customer |
+
+Add the test keys to `backend/.env` before placing an order:
+
+```env
+RAZORPAY_KEY_ID=rzp_test_xxxxxxxxx
+RAZORPAY_KEY_SECRET=your_test_secret
+```
+
 ## Project layout
 
 ```text
-backend/     Customer, product, and cart API
-frontend/    Account pages, catalog, and cart
+backend/     Customer, product, cart, wishlist, and order API
+frontend/    Account pages, catalog, wishlist, cart, and checkout
 ```

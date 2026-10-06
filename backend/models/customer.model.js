@@ -47,6 +47,15 @@ const customerSchema = new mongoose.Schema(
       type: [cartItemSchema],
       default: [],
     },
+    wishlist: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
+      ],
+      default: [],
+    },
   },
   {
     timestamps: { createdAt: true, updatedAt: false },

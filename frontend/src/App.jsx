@@ -5,9 +5,12 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import OrderDetails from "./pages/OrderDetails";
+import Orders from "./pages/Orders";
 import ProductDetails from "./pages/ProductDetails";
 import Products from "./pages/Products";
 import Register from "./pages/Register";
+import Wishlist from "./pages/Wishlist";
 
 export default function App() {
   return (
@@ -23,6 +26,10 @@ export default function App() {
           <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/orders/:id" element={<OrderDetails />} />
+          <Route path="/order-success/:id" element={<OrderDetails placed />} />
         </Routes>
       </CartProvider>
     </BrowserRouter>

@@ -5,6 +5,7 @@ import SearchBar from "../components/SearchBar";
 import { CATEGORIES } from "../constants/categories";
 import useCustomer from "../hooks/useCustomer";
 import { fetchProducts } from "../services/products";
+import { fetchWishlist } from "../services/wishlist";
 
 const sorts = new Set(["price_asc", "price_desc"]);
 
@@ -19,6 +20,7 @@ export default function Products() {
   const [searchInput, setSearchInput] = useState(searchQuery);
   const [trackedQuery, setTrackedQuery] = useState(searchQuery);
   const [catalog, setCatalog] = useState({ key: "", products: [], status: "loading" });
+  const [savedIds, setSavedIds] = useState([]);
 
   if (searchQuery !== trackedQuery) {
     setTrackedQuery(searchQuery);
@@ -85,6 +87,29 @@ export default function Products() {
     };
   }, [customer, searchQuery, category, sort]);
 
+  useEffect(() => {
+    if (!customer) {
+      return undefined;
+    }
+
+    let active = true;
+    fetchWishlist()
+      .then((data) => {
+        if (active) {
+          setSavedIds((data.wishlist || []).map((product) => product._id));
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setSavedIds([]);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [customer]);
+
   function updateFilters({ nextCategory = category, nextSort = sort }) {
     const params = {};
     const nextSearch = searchInput.trim();
@@ -138,7 +163,16 @@ export default function Products() {
       {status === "ready" && (
         <ul className="product-grid">
           {products.map((product) => (
-            <ProductCard key={product._id} product={product} />
+            <ProductCard
+              key={product._id}
+              product={product}
+              saved={savedIds.includes(product._id)}
+              onWishlistChange={(productId, saved) => {
+                setSavedIds((current) =>
+                  saved ? [...new Set([...current, productId])] : current.filter((id) => id !== productId)
+                );
+              }}
+            />
           ))}
         </ul>
       )}

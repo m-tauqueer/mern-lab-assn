@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import AddToCartButton from "./AddToCartButton";
+import WishlistButton from "./WishlistButton";
 import { formatPrice, stockLabel } from "../utils/formatProduct";
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, saved = false, onWishlistChange }) {
   return (
     <li className="product-card">
       <img src={product.image} alt={product.name} />
@@ -12,6 +13,7 @@ export default function ProductCard({ product }) {
         <p className="price-tag">{formatPrice(product.price)}</p>
         <p className={product.stock === 0 ? "stock stock-empty" : "stock"}>{stockLabel(product.stock)}</p>
         <AddToCartButton product={product} className="button" />
+        <WishlistButton productId={product._id} saved={saved} onSaved={onWishlistChange} />
         <Link className="text-link" to={`/products/${product._id}`}>
           View details
         </Link>

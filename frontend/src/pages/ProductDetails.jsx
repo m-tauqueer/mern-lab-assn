@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import AddToCartButton from "../components/AddToCartButton";
+import WishlistButton from "../components/WishlistButton";
 import useCustomer from "../hooks/useCustomer";
 import { fetchProduct } from "../services/products";
+import { fetchWishlist } from "../services/wishlist";
 import { formatPrice, stockLabel } from "../utils/formatProduct";
 
 export default function ProductDetails() {
   const customer = useCustomer();
   const { id } = useParams();
   const [result, setResult] = useState({ id: "", product: null, status: "loading" });
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
     if (!customer) {
@@ -34,6 +37,29 @@ export default function ProductDetails() {
           product: null,
           status: responseStatus === 400 || responseStatus === 404 ? "missing" : "error",
         });
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [customer, id]);
+
+  useEffect(() => {
+    if (!customer) {
+      return undefined;
+    }
+
+    let active = true;
+    fetchWishlist()
+      .then((data) => {
+        if (active) {
+          setSaved((data.wishlist || []).some((product) => product._id === id));
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setSaved(false);
+        }
       });
 
     return () => {
@@ -92,6 +118,11 @@ export default function ProductDetails() {
         <p className="detail-copy">{product.description}</p>
         <p className={product.stock === 0 ? "stock stock-empty" : "stock"}>{stockLabel(product.stock)}</p>
         <AddToCartButton product={product} className="button detail-cart" />
+        <WishlistButton
+          productId={product._id}
+          saved={saved}
+          onSaved={(_productId, nextSaved) => setSaved(nextSaved)}
+        />
       </div>
     </main>
   );
